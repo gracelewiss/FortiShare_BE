@@ -193,7 +193,31 @@ function recursiveSearchShared (files, query) {
         }
     }
 }
+// recursive function to get the shared file
+function recursiveGetSharedFile(files,_id){
+    var singleFile=null;
 
+    for(var a = 0; a<files.length;a++){
+        var file=(typeof files[a].file === "undefined") ? files[a] :
+            files[a].file;
+        //return if file type is not folder and ID is found
+        if(file.type !="folder"){
+            if(file._id==_id){
+                return file;
+            }
+        }
+        // if it is a folder and have files then do the recursion
+        if (file.type== "folder" && file.files.length > 0) {
+            singleFile = recursiveGetSharedFile(file.files, _id);
+            // return the file if found in sub-folders
+            if (singleFile != null) {
+                return singleFile;
+            }
+
+        }
+    }
+
+}
 // start the http server
 http.listen(3000, function () {
     console.log("Server started at " + mainURL);
@@ -533,8 +557,8 @@ http.listen(3000, function () {
                     var filePath = "Encryption_Decryption/" + new Date().getTime() + "-" + request.files.file.name;
                     uploadedObj.filePath = filePath;
 
-                    if (!fileSystem.existsSync("Encryption_Decryption/")){
-                        fileSystem.mkdirSync("Encryption_Decryption/");
+                    if (!fileSystem.existsSync("Encryption_Decryption/" )){
+                        fileSystem.mkdirSync("Encryption_Decryption/" );
                     }
 
                     // Read the file
@@ -556,7 +580,7 @@ http.listen(3000, function () {
                             });
 
                             request.session.status = "success";
-                            request.session.message = "Image has been uploaded.";
+                            request.session.message = "File uploaded.";
 
                             result.redirect("/MyUploads/" + _id);
                         });

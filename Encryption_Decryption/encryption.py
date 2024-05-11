@@ -1,3 +1,4 @@
+import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import padding as pd
@@ -71,7 +72,7 @@ def generate_public_key(private_key):   # Generating Public Key.
     return public_key
 
 
-def generate_private_pem(password, private_key):    # Generating the private key's PEM object to be serialized.
+def generate_private_pem(password, private_key):   
     """Function to generate a PEM object for Private Key."""
 
     private_pem = private_key.private_bytes(
@@ -83,7 +84,7 @@ def generate_private_pem(password, private_key):    # Generating the private key
     return private_pem
 
 
-def generate_public_pem(public_key):    # Generating the public key's PEM object to be serialized.
+def generate_public_pem(public_key):   
     """Function to generate a PEM object for Public Key."""
 
     public_pem = public_key.public_bytes(
@@ -172,6 +173,8 @@ def writing_files(filename, content):   # Writing encrypted file.
 
     file.close()
 
+watched_folder = "C:\\Users\\Grace Lewis\\fortishare\\Encryption_Decryption"
+encrypted_files_folder = "C:\\Users\\Grace Lewis\\fortishare\\Encryption_Decryption\\Encrypted_Files"
 
 def main():
 
@@ -215,6 +218,24 @@ def main():
 
     else:   # If the name for the encrypted output files WASN'T provided, using the original file name:
         writing_files(filename=sys.argv[1], content=encrypted_data)
+
+    # if len(sys.argv) >= 4:  # Checking if a name for the encrypted output file WAS provided:
+    #     original_filename = sys.argv[1]
+    #     _, extension = original_filename.split(".")  # Extracting the file extension.
+    #     new_filename = f"{sys.argv[3]}.{extension}"  # Generating new file name (encrypted filename)
+    #     encrypted_file_path = os.path.join(encrypted_files_folder, new_filename)  # Full path for encrypted file
+
+    #     writing_files(filename=encrypted_file_path, content=encrypted_data)
+    #     os.remove(original_filename)  # Remove the original file after successful encryption
+
+    # else:  # If the name for the encrypted output files WASN'T provided, using the original file name:
+    #     original_filename = sys.argv[1]
+    #     encrypted_file_path = os.path.join(encrypted_files_folder, f"{original_filename}.encrypted")
+
+    #     writing_files(filename=encrypted_file_path, content=encrypted_data)
+    #     os.remove(original_filename)  # Remove the original file after successful encryption
+
+    # ... (rest of the code remains the same)
 
     if len(sys.argv) == 7:    # Checking if the name for the AES Key file WAS provided:
         serializing_aes_key(filename=sys.argv[6], rsa_public_key=public_key, aes_key_object=aes_keys)

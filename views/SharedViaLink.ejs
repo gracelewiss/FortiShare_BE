@@ -17,12 +17,16 @@
                     <h1><%= link.file.name %></h1>
 
                     <br />
-
+   
                     <button type="button"
-                        class="btn btn-success"
-                        onclick="downloadFile(this);"
-                        data-id="<%= link.file._id %>">Download</button>
-
+                    class="btn btn-success"
+                    onclick="downloadFile(this);"
+                    data-id="<%= link.file._id %>">Download</button>
+                    <script>
+                    var modalBodyHtml = "";
+                    modalBodyHtml += "<button type='button' class='btn btn-success' onclick='downloadFile(this);' data-id='" + _id + "'>Download</button>";
+                    document.querySelector("#viewFileModal .modal-body").innerHTML = modalBodyHtml;
+                    $("#viewFileModal").modal("show");</script>
                 </div>
             </div>
         </div>
